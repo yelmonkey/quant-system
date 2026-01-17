@@ -4,8 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <title>养家量化系统</title>
-    <!-- 强制相对路径解析，解决 GitHub Pages 路径问题 -->
-    <base href="./">
     
     <meta name="theme-color" content="#0f172a" />
     <meta name="mobile-web-app-capable" content="yes" />
@@ -13,8 +11,11 @@
     
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📈</text></svg>">
     
-    <script src="https://cdn.tailwindcss.com" crossorigin></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
+      // 注入 process 垫片，防止 geminiService 因找不到 process.env 而崩溃
+      window.process = window.process || { env: { API_KEY: "" } };
+      
       tailwind.config = {
         theme: {
           extend: {
@@ -62,21 +63,20 @@
       }
       @keyframes spin { to { transform: rotate(360deg); } }
       .loading-text { color: #94a3b8; font-family: sans-serif; font-size: 14px; letter-spacing: 2px; }
-      ::-webkit-scrollbar { width: 4px; }
-      ::-webkit-scrollbar-track { background: #1e293b; }
-      ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
     </style>
+    
     <script type="importmap">
 {
   "imports": {
-    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
-    "recharts": "https://esm.sh/recharts@^3.6.0",
-    "react-markdown": "https://esm.sh/react-markdown@^10.1.0",
-    "react": "https://esm.sh/react@^19.2.3",
-    "react-dom": "https://esm.sh/react-dom@^19.2.3",
-    "@google/genai": "https://esm.sh/@google/genai@^1.37.0",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
+    "react": "https://esm.sh/react@19.0.0",
+    "react-dom": "https://esm.sh/react-dom@19.0.0",
+    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
+    "lucide-react": "https://esm.sh/lucide-react@0.462.0?external=react",
+    "recharts": "https://esm.sh/recharts@2.13.0?external=react",
+    "react-markdown": "https://esm.sh/react-markdown@9.0.1?external=react",
+    "@google/genai": "https://esm.sh/@google/genai@0.21.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/"
   }
 }
 </script>
@@ -85,20 +85,30 @@
   <body>
     <div id="loading-screen">
       <div class="spinner"></div>
-      <div class="loading-text">养家量化系统启动中...</div>
+      <div class="loading-text">系统自检中...</div>
     </div>
+    
     <div id="root"></div>
-    <script type="module">
-      import "./index.tsx";
-      window.addEventListener('load', () => {
+
+    <!-- 加载引导 -->
+    <script type="module" src="index.tsx"></script>
+
+    <!-- 强制关闭加载动画脚本 -->
+    <script>
+      // 这里的逻辑独立于模块系统，确保即便 JS 运行出错，Loading 也能消失，方便看到报错信息
+      function hideLoader() {
         const loader = document.getElementById('loading-screen');
         if (loader) {
-          setTimeout(() => {
-            loader.style.opacity = '0';
-            setTimeout(() => loader.remove(), 500);
-          }, 1000);
+          loader.style.opacity = '0';
+          setTimeout(() => loader.remove(), 500);
         }
-      });
+      }
+      
+      // 监听窗口加载完成
+      window.addEventListener('load', hideLoader);
+      
+      // 容错：5秒后如果还没加载完，强制关闭加载屏
+      setTimeout(hideLoader, 5000);
     </script>
   <script type="module" src="/index.tsx"></script>
 </body>
