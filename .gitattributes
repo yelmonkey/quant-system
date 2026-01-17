@@ -1,2 +1,4 @@
 *.tsx text/javascript
 *.ts text/javascript
+index.tsx text/javascript
+App.tsx text/javascript

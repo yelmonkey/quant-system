@@ -4,14 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <title>养家量化系统</title>
-    <!-- PWA & Mobile Optimization -->
+    <!-- 强制相对路径解析，解决 GitHub Pages 路径问题 -->
+    <base href="./">
+    
     <meta name="theme-color" content="#0f172a" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <link rel="manifest" href="manifest.json" />
+    
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📈</text></svg>">
     
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com" crossorigin></script>
     <script>
       tailwind.config = {
         theme: {
@@ -35,12 +37,9 @@
         background-color: #0f172a;
         color: #e2e8f0;
         margin: 0;
-        overflow: hidden;
+        overflow-x: hidden;
         -webkit-tap-highlight-color: transparent;
-        user-select: none;
       }
-      
-      /* 启动加载动画 */
       #loading-screen {
         position: fixed;
         inset: 0;
@@ -63,59 +62,43 @@
       }
       @keyframes spin { to { transform: rotate(360deg); } }
       .loading-text { color: #94a3b8; font-family: sans-serif; font-size: 14px; letter-spacing: 2px; }
-
       ::-webkit-scrollbar { width: 4px; }
       ::-webkit-scrollbar-track { background: #1e293b; }
       ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
     </style>
-  <script type="importmap">
+    <script type="importmap">
 {
   "imports": {
     "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
     "recharts": "https://esm.sh/recharts@^3.6.0",
     "react-markdown": "https://esm.sh/react-markdown@^10.1.0",
-    "react/": "https://esm.sh/react@^19.2.3/",
     "react": "https://esm.sh/react@^19.2.3",
+    "react-dom": "https://esm.sh/react-dom@^19.2.3",
     "@google/genai": "https://esm.sh/@google/genai@^1.37.0",
+    "react/": "https://esm.sh/react@^19.2.3/",
     "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css">
+  <link rel="stylesheet" href="/index.css">
 </head>
   <body>
-    <!-- 加载遮罩层 -->
     <div id="loading-screen">
       <div class="spinner"></div>
       <div class="loading-text">养家量化系统启动中...</div>
     </div>
-
     <div id="root"></div>
-
-    <!-- 修复：通过模块脚本显式加载 index.tsx -->
     <script type="module">
       import "./index.tsx";
-      
-      // 当脚本加载完成并执行后（React渲染约需要一点时间），隐藏加载动画
       window.addEventListener('load', () => {
         const loader = document.getElementById('loading-screen');
         if (loader) {
           setTimeout(() => {
             loader.style.opacity = '0';
             setTimeout(() => loader.remove(), 500);
-          }, 800);
+          }, 1000);
         }
       });
-    </script>
-
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('./sw.js')
-            .then(reg => console.log('PWA ServiceWorker ready'))
-            .catch(err => console.log('PWA ServiceWorker failed', err));
-        });
-      }
     </script>
   <script type="module" src="/index.tsx"></script>
 </body>
