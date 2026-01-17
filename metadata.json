@@ -1,5 +1,5 @@
 {
-  "name": "嵇勇 AI Quant System",
-  "description": "A quantitative stock selection and sentiment analysis system based on the 'Chao Gu Yang Jia' trading philosophy, featuring AI-driven market phase analysis and position management.",
+  "name": "养家量化系统",
+  "description": "基于养家心法的 AI 量化选股与情绪分析系统，具备 AI 驱动的市场阶段分析和仓位管理功能。",
   "requestFramePermissions": []
 }

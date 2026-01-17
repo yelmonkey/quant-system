@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import Layout from './components/Layout';
-import Dashboard from './components/Dashboard';
-import StockScreener from './components/StockScreener';
-import AIAnalyst from './components/AIAnalyst';
-import RiskCalculator from './components/RiskCalculator';
-import { INITIAL_MARKET_DATA } from './constants';
-import { MarketMetrics } from './types';
+import Layout from './components/Layout.tsx';
+import Dashboard from './components/Dashboard.tsx';
+import StockScreener from './components/StockScreener.tsx';
+import AIAnalyst from './components/AIAnalyst.tsx';
+import RiskCalculator from './components/RiskCalculator.tsx';
+import { INITIAL_MARKET_DATA } from './constants.ts';
+import { MarketMetrics } from './types.ts';
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState('dashboard');

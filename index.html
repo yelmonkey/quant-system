@@ -33,17 +33,21 @@
       body {
         background-color: #0f172a;
         color: #e2e8f0;
-        -webkit-tap-highlight-color: transparent; /* Disable tap highlight on mobile */
-        overscroll-behavior-y: contain; /* Prevent pull-to-refresh if needed */
-        user-select: none; /* Prevent text selection for app feel */
+        -webkit-tap-highlight-color: transparent;
+        overscroll-behavior-y: contain;
+        user-select: none;
+        -webkit-user-select: none;
       }
       ::-webkit-scrollbar { width: 4px; }
       ::-webkit-scrollbar-track { background: #1e293b; }
       ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
 
-      /* Mobile Safe Areas */
       .safe-top { padding-top: env(safe-area-inset-top); }
       .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+      
+      /* 防止移动端长按弹出菜单 */
+      * { -webkit-touch-callout: none; }
+      input, textarea { -webkit-touch-callout: default; user-select: text; -webkit-user-select: text; }
     </style>
   <script type="importmap">
 {
@@ -62,15 +66,14 @@
 </head>
   <body>
     <div id="root"></div>
+    <!-- 关键修复：显式加载入口模块 -->
+    <script type="module" src="index.tsx"></script>
     <script>
-      // Register Service Worker for PWA functionality
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('sw.js').then(reg => {
-            console.log('SW registered');
-          }).catch(err => {
-            console.log('SW registration failed: ', err);
-          });
+          navigator.serviceWorker.register('./sw.js')
+            .then(reg => console.log('PWA ServiceWorker ready'))
+            .catch(err => console.log('PWA ServiceWorker failed', err));
         });
       }
     </script>
