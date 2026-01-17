@@ -1,0 +1,18 @@
+{
+  "name": "养家量化系统",
+  "short_name": "养家量化",
+  "description": "基于养家心法的 AI 量化选股系统",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2533/2533515.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
